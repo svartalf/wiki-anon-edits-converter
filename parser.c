@@ -30,5 +30,5 @@ void revision_clear(Revision *rev) {
 };
 
 bool revision_filled(Revision *rev) {
-	return ((rev->ip != 0) && (rev->new_id != 0) && (rev->page_id != 0) || (rev->timestamp != 0));
+	return ((rev->ip != 0) && (rev->new_id != 0) && (rev->page_id != 0) && (rev->timestamp != 0));
 }
