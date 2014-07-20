@@ -12,7 +12,11 @@
 #include "output.h"
 
 #ifndef __USE_XOPEN
-#define __USE_XOPEN
+	#define __USE_XOPEN
+#endif
+
+#ifndef _GNU_SOURCE
+	#define _GNU_SOURCE
 #endif
 
 static void processNode(xmlTextReaderPtr reader, Revision *rev) {
