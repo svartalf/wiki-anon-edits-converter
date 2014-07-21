@@ -9,10 +9,10 @@ typedef struct Revision {
 	bool in_page;
 	bool in_revision;
 
-	uint64_t id;
-	uint64_t parent_id;
-	uint64_t page_id;
-	uint64_t ip;
+	int64_t id;
+	int64_t parent_id;
+	int64_t page_id;
+	int64_t ip;
 	time_t timestamp;
 
 	bool wait_for_id;
