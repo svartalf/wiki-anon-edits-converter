@@ -45,15 +45,15 @@ static void processNode(xmlTextReaderPtr reader, Revision *rev) {
     		return;
     	}
 
-    	if (rev->wait_for_new_id == true) {
-			rev->new_id = atoi((char *) value);
-    		rev->wait_for_new_id = false;
+    	if (rev->wait_for_id == true) {
+			rev->id = atoi((char *) value);
+    		rev->wait_for_id = false;
     		return;
     	}
 
-    	if (rev->wait_for_old_id == true) {
-        	rev->old_id = atoi((char *) value);
-        	rev->wait_for_old_id = false;
+    	if (rev->wait_for_parent_id == true) {
+        	rev->parent_id = atoi((char *) value);
+        	rev->wait_for_parent_id = false;
         	return;
     	}
 
@@ -92,13 +92,13 @@ static void processNode(xmlTextReaderPtr reader, Revision *rev) {
 		}
 
 		if (rev->in_revision == true) {
-			rev->wait_for_new_id = true;
+			rev->wait_for_id = true;
 			return;
 		}
     }
 
     if ((rev->in_revision == true) && (xmlStrEqual(name, node_parent_id) == 1)) {
-    	rev->wait_for_old_id = true;
+    	rev->wait_for_parent_id = true;
     	return;
     }
     if ((rev->in_revision == true) && (xmlStrEqual(name, node_ip) == 1)) {
@@ -119,7 +119,9 @@ int main(int argc, char *argv[]) {
 	// xmlTextReaderPtr reader = xmlReaderForFile("/run/media/svartalf/storage/wikipedia/ruwiki-20140706-pages-meta-history1.xml", NULL, 0);
 	xmlTextReaderPtr reader = xmlReaderForFile("/tmp/test.xml", NULL, 0);
 
-	FILE *output = fopen("/tmp/output.csv", "w");
+	FILE *output = fopen("/tmp/output.bin", "w");
+	output_write_header(output);
+
 	Revision *rev = revision_create();
 
 	int result = xmlTextReaderRead(reader);
@@ -133,13 +135,15 @@ int main(int argc, char *argv[]) {
 		}
 
 	}
-	fclose(output);
+
+	output_close(output);
+
 	xmlFreeTextReader(reader);
 	if (result != 0) {
 		fprintf(stderr, "failed to parse: %d\n", result);
 	}
 	xmlCleanupParser();
-	xmlMemoryDump();
 
 	return 0;
+
 }

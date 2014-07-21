@@ -7,5 +7,7 @@ void output_write_header(FILE *f);
 
 void output_write_row(FILE *f, Revision *rev);
 
+void output_close(FILE *f);
+
 #endif
 
